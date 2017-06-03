@@ -7,7 +7,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-    public class MainActivity extends AppCompatActivity {
+import static android.R.attr.x;
+
+public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +19,7 @@ import android.widget.TextView;
         String str="",main="",all="";
         String sign;
         int a=0,b=0;
+        float res=0;
 
         public void reset(View view)
         {
@@ -25,6 +28,7 @@ import android.widget.TextView;
             all="";
             a=0;
             b=0;
+            res=0;
             displayMessage(all);
             displayResult(main);
         }
@@ -174,34 +178,53 @@ import android.widget.TextView;
         }
         public void result(View view)
         {
-            float x= 0;
-            b= Integer.parseInt(str);
-            switch(sign)
+            try
             {
-                case "+":
-                    x =a+b;
-                    break;
-                case "-":
-                    x =a-b;
-                    break;
-                case "*":
-                    x =a*b;
-                    break;
-                case "/":
-                    x =(float) a/b;
-                    break;
-                default:
+                calculate();
 
+                main+=" = "+Float.toString(res);
+                all+=main+"\n";
+                displayResult(all);
+                displayResultitalic(Float.toString(res));
+                main="";
+                a=0;
+                b=0;
+                sign="";
+                str="";
             }
-            main+=" = "+Float.toString(x);
-            all+=main+"\n";
-            displayResult(all);
-            displayResultitalic(Float.toString(x));
-            main="";
-            a=0;
-            b=0;
-            sign="";
-            str="";
+            catch(Exception e)
+            {}
+
+        }
+        private void calculate()
+        {
+            try {
+                float x= 0;
+                b= Integer.parseInt(str);
+                switch(sign)
+                {
+                    case "+":
+                        x =a+b;
+                        break;
+                    case "-":
+                        x =a-b;
+                        break;
+                    case "*":
+                        x =a*b;
+                        break;
+                    case "/":
+                        x =(float) a/b;
+                        break;
+                    default:
+
+                }
+                res=x;
+            }
+            catch (Exception e)
+            {
+                res=Integer.parseInt(str);
+            }
+
         }
         private void displayMessage(String message) {
             TextView textView = (TextView) findViewById(R.id.text2_view);
